@@ -1109,6 +1109,9 @@ void setup() {
   #if ENABLED(PRUSA_MMU2)
     mmu2.init();
   #endif
+
+  // SBW So we know when to start
+  SERIAL_ECHOLNPGM("ready");
 }
 
 /**
