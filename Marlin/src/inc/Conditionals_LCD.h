@@ -169,12 +169,16 @@
 
 #endif
 
-#if EITHER(MAKRPANEL, MINIPANEL)
+#if ENABLED(MAKRPANEL)
   #define DOGLCD
   #define ULTIPANEL
   #ifndef DEFAULT_LCD_CONTRAST
     #define DEFAULT_LCD_CONTRAST 17
   #endif
+#elif ENABLED(MINIPANEL)
+  #define DOGLCD
+  #define ULTIPANEL
+  #undef DEFAULT_LCD_CONTRAST
 #endif
 
 #if ENABLED(ULTI_CONTROLLER)
@@ -353,6 +357,9 @@
  */
 #define HAS_LCD_CONTRAST (HAS_GRAPHICAL_LCD && defined(DEFAULT_LCD_CONTRAST))
 #if HAS_LCD_CONTRAST
+  #if ENABLED(MINIPANEL)
+    #error "Minipanel should not have contrast set"
+  #endif
   #ifndef LCD_CONTRAST_MIN
     #define LCD_CONTRAST_MIN 0
   #endif
