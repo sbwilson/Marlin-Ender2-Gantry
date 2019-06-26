@@ -53,7 +53,7 @@
 #define LCD_PINS_D4        30   // ST9720 CLK
 
 #if DISABLED(SPEAKER) && ENABLED(BLTOUCH)
-  #define SERVO0_PIN 27
+  #define SERVO0_PIN 29
 #endif
 
 // Alter timing for graphical display
