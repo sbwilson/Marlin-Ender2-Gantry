@@ -233,17 +233,14 @@
 
  // Einstart OLED has Cardinal nav via pins defined in pins_EINSTART-S.h
  #if ENABLED(U8GLIB_SH1106_EINSTART)
-   #define ULTRA_LCD
    #define DOGLCD
    #define ULTIPANEL
-   #define NEWPANEL
  #endif
 
  /**
   * FSMC/SPI TFT PANELS
   */
  #if ENABLED(MKS_ROBIN_TFT)
-   #define ULTRA_LCD
    #define DOGLCD
    #define ULTIPANEL
  #endif
@@ -334,7 +331,7 @@
 #endif
 
 #if ENABLED(ULTIPANEL)
-  #define NEWPANEL  // Disable this if you actually have no click-encoder panel
+  #define NEWPANEL        // Disable if there's actually no click-encoder panel
   #define ULTRA_LCD
 #endif
 
