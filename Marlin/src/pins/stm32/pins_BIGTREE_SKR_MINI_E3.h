@@ -108,11 +108,21 @@
 
 #define SD_DETECT_PIN      PC4
 
+#undef LCD_SDSS
+#undef LED_PIN
+#undef LCD_PINS_RS
+#undef LCD_PINS_ENABLE
+#undef LCD_PINS_D4
+#undef LCD_PINS_D5
+#undef LCD_PINS_D6
+#undef LCD_PINS_D7
+#undef FIL_RUNOUT_PIN  
+
 /**
  *                 _____
  *             5V | · · | GND
  *  (LCD_EN) PB7  | · · | PB8  (LCD_RS)
- *  (LCD_D4) PB9  | · · | PA10 (BTN_EN2)
+ *  (LCD_D4) PB9  | · ·[  PA10 (BTN_EN2)
  *          RESET | · · | PA9  (BTN_EN1)
  * (BTN_ENC) PB6  | · · | PB5  (BEEPER)
  *                 -----
@@ -132,14 +142,23 @@
     #define LCD_PINS_ENABLE PB7
     #define LCD_PINS_D4     PB9
   #elif ENABLED(MINIPANEL)
+    #undef DOGLCD_CS
     #define DOGLCD_CS       PB8
-    #define DOGLCD_A0       PB5  
-    #define DOGLCD_SCK      PB9
-    #define DOGLCD_MOSI     PB7
-    #define FORCE_SOFT_SPI
-    #undef DEFAULT_LCD_CONTRAST
+    #define DOGLCD_A0       PB9  
+    
+    #define LCD_PINS_ENABLE PB7 
+    #define LCD_PINS_RS     DOGLCD_CS 
+    #define LCD_PINS_D4     DOGLCD_A0
+    
+    #define LCD_SCREEN_ROT_0
+
+    // #define LCD_BACKLIGHT_PIN PB7
+    // #define DOGLCD_SCK      PB9
+    // #define DOGLCD_MOSI     PB7
+    // #define FORCE_SOFT_SPI
+    // #undef DEFAULT_LCD_CONTRAST
   #else
-    #error "Only CR10_STOCKDISPLAY is currently supported on the BIGTREE_SKR_MINI_E3."
+    #error "Only CR10_STOCKDISPLAY and MINIPANEL are currently supported on the BIGTREE_SKR_MINI_E3."
   #endif
 
 #endif // HAS_SPI_LCD

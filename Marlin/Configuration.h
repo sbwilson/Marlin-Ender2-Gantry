@@ -1901,7 +1901,7 @@
 // controller and SD support - http://reprap.org/wiki/Mini_panel
 //
 // #define MINIPANEL
-#define DEFAULT_LCD_CONTRAST 50
+// #define DEFAULT_LCD_CONTRAST 50
 
 //
 // MaKr3d Makr-Panel with graphic controller and SD support.
