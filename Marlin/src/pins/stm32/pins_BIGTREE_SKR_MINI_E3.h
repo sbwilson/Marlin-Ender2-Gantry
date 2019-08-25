@@ -43,7 +43,7 @@
 //
 #define X_STOP_PIN         PC0
 #define Y_STOP_PIN         PC1
-#define Z_STOP_PIN         PC2
+#define Z_STOP_PIN         PC14 // PC2
 
 //
 // Z Probe must be this pins
@@ -120,17 +120,24 @@
  */
 #if HAS_SPI_LCD
   #define BEEPER_PIN       PB5
-  #define BTN_ENC          PB6
+
+  // The encoder is validated to work with the Ender2 LCD and the Ender3 LCD
+  #define BTN_ENC         PB6
+  #define BTN_EN1         PA9
+  #define BTN_EN2         PA10
 
   #if ENABLED(CR10_STOCKDISPLAY)
     #define LCD_PINS_RS    PB8
 
-    #define BTN_EN1        PA9
-    #define BTN_EN2        PA10
-
     #define LCD_PINS_ENABLE PB7
-    #define LCD_PINS_D4    PB9
-
+    #define LCD_PINS_D4     PB9
+  #elif ENABLED(MINIPANEL)
+    #define DOGLCD_CS       PB8
+    #define DOGLCD_A0       PB5  
+    #define DOGLCD_SCK      PB9
+    #define DOGLCD_MOSI     PB7
+    #define FORCE_SOFT_SPI
+    #undef DEFAULT_LCD_CONTRAST
   #else
     #error "Only CR10_STOCKDISPLAY is currently supported on the BIGTREE_SKR_MINI_E3."
   #endif
