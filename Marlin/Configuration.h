@@ -1900,7 +1900,7 @@
 // MakerLab Mini Panel with graphic
 // controller and SD support - http://reprap.org/wiki/Mini_panel
 //
-// #define MINIPANEL
+#define MINIPANEL
 // #define DEFAULT_LCD_CONTRAST 50
 
 //
