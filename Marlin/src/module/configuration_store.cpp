@@ -2624,6 +2624,17 @@ void MarlinSettings::reset() {
    * Unless specifically disabled, M503 is available even without EEPROM
    */
   void MarlinSettings::report(const bool forReplay) {
+	/**
+	 * Display the build volume
+	 */   
+    CONFIG_ECHO_START();
+    SERIAL_ECHOPGM("  Build volume:");
+	SERIAL_ECHOPAIR(" X:", LINEAR_UNIT(X_BED_SIZE));
+	SERIAL_ECHOPAIR(" Y:", LINEAR_UNIT(Y_BED_SIZE));
+	SERIAL_ECHOPAIR(" Z:", LINEAR_UNIT(Z_MAX_POS));
+	SERIAL_EOL();
+	  
+	  
     /**
      * Announce current units, in case inches are being displayed
      */
