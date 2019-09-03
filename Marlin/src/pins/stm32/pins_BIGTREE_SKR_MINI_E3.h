@@ -124,6 +124,8 @@
  *                 -----
  *                 EXP1
  */
+
+/*
 #if HAS_SPI_LCD
   #define BEEPER_PIN       PB5
   #define BTN_ENC          PB6
@@ -142,3 +144,47 @@
   #endif
 
 #endif // HAS_SPI_LCD
+*/
+
+#if HAS_SPI_LCD
+  #define BEEPER_PIN      PB5
+
+  // The encoder is validated to work with the Ender2 LCD and the Ender3 LCD
+  #define BTN_ENC         PB6
+  #define BTN_EN1         PA9
+  #define BTN_EN2         PA10
+
+  #if ENABLED(CR10_STOCKDISPLAY)
+    #define LCD_PINS_RS    PB8
+
+    #define LCD_PINS_ENABLE PB7
+    #define LCD_PINS_D4     PB9
+  #elif ENABLED(MINIPANEL)
+    // #define DOGLCD_CS       PB8
+    // #define DOGLCD_A0       PB9  
+    
+    #define DOGLCD_CS       PB8
+    #define DOGLCD_MOSI     PB7
+    #define DOGLCD_SCK      PB5
+    #define DOGLCD_A0       PB9
+    
+    #define LCD_SCREEN_ROT_0
+
+  #else
+    #error "Only CR10_STOCKDISPLAY and MINIPANEL are currently supported on the BIGTREE_SKR_MINI_E3."
+  #endif
+
+#endif // HAS_SPI_LCD
+
+// Alter timing for graphical display
+#ifndef ST7920_DELAY_1
+  #define ST7920_DELAY_1 DELAY_NS(125)
+#endif
+#ifndef ST7920_DELAY_2
+  #define ST7920_DELAY_2 DELAY_NS(125)
+#endif
+#ifndef ST7920_DELAY_3
+  #define ST7920_DELAY_3 DELAY_NS(125)
+#endif
+
+
