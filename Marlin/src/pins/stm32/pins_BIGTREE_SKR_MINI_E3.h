@@ -54,7 +54,9 @@
 //
 // Z Probe must be this pins
 //
-#define Z_MIN_PROBE_PIN    PC14
+#ifndef Z_MIN_PROBE_PIN
+  #define Z_MIN_PROBE_PIN    PC14
+#endif // Z_MIN_PROBE_PIN
 
 //
 // Filament Runout Sensor
@@ -118,7 +120,7 @@
  *                 _____
  *             5V | · · | GND
  *  (LCD_EN) PB7  | · · | PB8  (LCD_RS)
- *  (LCD_D4) PB9  | · · | PA10 (BTN_EN2)
+ *  (LCD_D4) PB9  | · ·   PA10 (BTN_EN2)
  *          RESET | · · | PA9  (BTN_EN1)
  * (BTN_ENC) PB6  | · · | PB5  (BEEPER)
  *                 -----
@@ -127,20 +129,29 @@
 
 /*
 #if HAS_SPI_LCD
-  #define BEEPER_PIN       PB5
-  #define BTN_ENC          PB6
+  // Common betweend display types
+  #define BTN_ENC           PB6
+  #define BTN_EN1           PA9
+  #define BTN_EN2           PA10
 
+  // The stock Ender 3 / Ender 5 LCD
   #if ENABLED(CR10_STOCKDISPLAY)
-    #define LCD_PINS_RS    PB8
-
-    #define BTN_EN1        PA9
-    #define BTN_EN2        PA10
-
+    #define BEEPER_PIN      -1 // PB5
+    #define LCD_PINS_RS     PB8
     #define LCD_PINS_ENABLE PB7
-    #define LCD_PINS_D4    PB9
+    #define LCD_PINS_D4     PB9
+  
+  // The Ender 2 mini-LCD
+  #elif ENABLED(MINIPANEL)
+    #define DOGLCD_A0       PB9
+    #define DOGLCD_CS       PB8
+    // #define DOGLCD_SCK      PB5
+    // #define DOGLCD_MOSI     PB7
 
+    #define LCD_BACKLIGHT_PIN -1
+    #define LCD_RESET_PIN  -1
   #else
-    #error "Only CR10_STOCKDISPLAY is currently supported on the BIGTREE_SKR_MINI_E3."
+    #error "Only CR10_STOCKDISPLAY or MINIPANEL is currently supported on the BIGTREE_SKR_MINI_E3."
   #endif
 
 #endif // HAS_SPI_LCD
@@ -187,7 +198,6 @@
   #define ST7920_DELAY_3 DELAY_NS(125)
 #endif
 
-
 //
 // SD Support
 //
@@ -199,3 +209,4 @@
 
 #define ON_BOARD_SPI_DEVICE 1    //SPI1
 #define ONBOARD_SD_CS_PIN  PA4   // Chip select for "System" SD card
+

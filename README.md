@@ -10,6 +10,10 @@
 Additional documentation can be found at the [Marlin Home Page](http://marlinfw.org/).
 Please test this firmware and let us know if it misbehaves in any way. Volunteers are standing by!
 
+## My local changes
+
+This fork of Merlin contains minor changes and configuration settings for my work using an Ender 2 as a 3D gantry for remote control. It is probably of limited use to yourself, and you may find the official [Marlin repository](https://github.com/MarlinFirmware/Marlin) is far better suited to your needs. 
+
 ## Marlin 2.0 Bugfix Branch
 
 __Not for production use. Use with caution!__
