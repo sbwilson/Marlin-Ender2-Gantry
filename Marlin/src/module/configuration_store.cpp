@@ -2625,6 +2625,18 @@ void MarlinSettings::reset() {
    */
   void MarlinSettings::report(const bool forReplay) {
     /**
+     * Display the build volume
+     */   
+    CONFIG_ECHO_START();
+    SERIAL_ECHOPGM("Build volume:");
+    SERIAL_ECHOLNPAIR("  X:", LINEAR_UNIT(X_BED_SIZE));
+    SERIAL_ECHOLNPAIR("  Y:", LINEAR_UNIT(Y_BED_SIZE));
+    SERIAL_ECHOLNPAIR("  Z:", LINEAR_UNIT(Z_MAX_POS));
+    SERIAL_EOL();
+	  
+	  
+    
+    /**
      * Announce current units, in case inches are being displayed
      */
     CONFIG_ECHO_START();
