@@ -147,7 +147,7 @@
 */
 
 #if HAS_SPI_LCD
-  #define BEEPER_PIN      PB5
+  #define BEEPER_PIN      -1 // PB5
 
   // The encoder is validated to work with the Ender2 LCD and the Ender3 LCD
   #define BTN_ENC         PB6
