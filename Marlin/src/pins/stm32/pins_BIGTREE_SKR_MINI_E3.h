@@ -33,7 +33,7 @@
 // Ignore temp readings during development.
 //#define BOGUS_TEMPERATURE_GRACE_PERIOD 2000
 
-#define FLASH_EEPROM_EMULATION
+// #define FLASH_EEPROM_EMULATION
 #define EEPROM_PAGE_SIZE     uint16(0x800) // 2KB
 #define EEPROM_START_ADDRESS uint32(0x8000000 + 256 * 1024 - 2 * EEPROM_PAGE_SIZE)
 #undef E2END
@@ -187,16 +187,16 @@
 
 #endif // HAS_SPI_LCD
 
-// Alter timing for graphical display
-#ifndef ST7920_DELAY_1
-  #define ST7920_DELAY_1 DELAY_NS(125)
-#endif
-#ifndef ST7920_DELAY_2
-  #define ST7920_DELAY_2 DELAY_NS(125)
-#endif
-#ifndef ST7920_DELAY_3
-  #define ST7920_DELAY_3 DELAY_NS(125)
-#endif
+// // Alter timing for graphical display
+// #ifndef ST7920_DELAY_1
+//   #define ST7920_DELAY_1 DELAY_NS(125)
+// #endif
+// #ifndef ST7920_DELAY_2
+//   #define ST7920_DELAY_2 DELAY_NS(125)
+// #endif
+// #ifndef ST7920_DELAY_3
+//   #define ST7920_DELAY_3 DELAY_NS(125)
+// #endif
 
 //
 // SD Support
