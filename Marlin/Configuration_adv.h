@@ -1001,7 +1001,7 @@
 //#define LCD_TIMEOUT_TO_STATUS 15000
 
 // Add an 'M73' G-code to set the current percentage
-// #define LCD_SET_PROGRESS_MANUALLY
+#define LCD_SET_PROGRESS_MANUALLY
 
 // Show the E position (filament used) during printing
 //#define LCD_SHOW_E_TOTAL
@@ -1629,11 +1629,7 @@
 //
 // G2/G3 Arc Support
 //
-<<<<<<< HEAD
 // #define ARC_SUPPORT               // Disable this feature to save ~3226 bytes
-=======
-#define ARC_SUPPORT                 // Disable this feature to save ~3226 bytes
->>>>>>> 015c4e6fbdd28f5c4cb5fc987d4f4ae513b1c13d
 #if ENABLED(ARC_SUPPORT)
   #define MM_PER_ARC_SEGMENT      1 // (mm) Length (or minimum length) of each arc segment
   //#define ARC_SEGMENTS_PER_R    1 // Max segment length, MM_PER = Min
@@ -2217,12 +2213,7 @@
   #define Y2_SLAVE_ADDRESS 0
   #define Z2_SLAVE_ADDRESS 0
   #define Z3_SLAVE_ADDRESS 0
-<<<<<<< HEAD
   #define E0_SLAVE_ADDRESS 3
-=======
-  #define Z4_SLAVE_ADDRESS 0
-  #define E0_SLAVE_ADDRESS 0
->>>>>>> 015c4e6fbdd28f5c4cb5fc987d4f4ae513b1c13d
   #define E1_SLAVE_ADDRESS 0
   #define E2_SLAVE_ADDRESS 0
   #define E3_SLAVE_ADDRESS 0
