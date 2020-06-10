@@ -14,7 +14,7 @@
 # Detailed instructions for using the makefile:
 #
 #  1. Modify the line containing "ARDUINO_INSTALL_DIR" to point to the directory that
-#     contains the Arduino installation (for example, under Mac OS X, this
+#     contains the Arduino installation (for example, under macOS, this
 #     might be /Applications/Arduino.app/Contents/Resources/Java).
 #
 #  2. Modify the line containing "UPLOAD_PORT" to refer to the filename
@@ -361,32 +361,36 @@ else ifeq ($(HARDWARE_MOTHERBOARD),1501)
 else ifeq ($(HARDWARE_MOTHERBOARD),1502)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega644p
-# Melzi with ATmega1284 (MaKr3d version)
+# Melzi V2.0
 else ifeq ($(HARDWARE_MOTHERBOARD),1503)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# Melzi Creality3D board (for CR-10 etc)
+# Melzi with ATmega1284 (MaKr3d version)
 else ifeq ($(HARDWARE_MOTHERBOARD),1504)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# Melzi Malyan M150 board
+# Melzi Creality3D board (for CR-10 etc)
 else ifeq ($(HARDWARE_MOTHERBOARD),1505)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# Tronxy X5S
+# Melzi Malyan M150 board
 else ifeq ($(HARDWARE_MOTHERBOARD),1506)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# STB V1.1
+# Tronxy X5S
 else ifeq ($(HARDWARE_MOTHERBOARD),1507)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# Azteeg X1
+# STB V1.1
 else ifeq ($(HARDWARE_MOTHERBOARD),1508)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# Anet 1.0 (Melzi clone)
+# Azteeg X1
 else ifeq ($(HARDWARE_MOTHERBOARD),1509)
+  HARDWARE_VARIANT ?= Sanguino
+  MCU              ?= atmega1284p
+# Anet 1.0 (Melzi clone)
+else ifeq ($(HARDWARE_MOTHERBOARD),1510)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
 
@@ -686,7 +690,7 @@ ifeq ($(HARDWARE_VARIANT), Teensy)
 
 else ifeq ($(HARDWARE_VARIANT), archim)
   CDEFS      += -DARDUINO_SAM_ARCHIM -DARDUINO_ARCH_SAM -D__SAM3X8E__ -DUSB_VID=0x27b1 -DUSB_PID=0x0001 -DUSBCON '-DUSB_MANUFACTURER="UltiMachine"' '-DUSB_PRODUCT="Archim"'
-  LIB_CXXSRC += variant.cpp IPAddress.cpp Reset.cpp RingBuffer.cpp Stream.cpp UARTClass.cpp  USARTClass.cpp abi.cpp new.cpp watchdog.cpp CDC.cpp PluggableUSB.cpp  USBCore.cpp
+  LIB_CXXSRC += variant.cpp IPAddress.cpp Reset.cpp RingBuffer.cpp Stream.cpp UARTClass.cpp  USARTClass.cpp abi.cpp new.cpp watchdog.cpp CDC.cpp PluggableUSB.cpp USBCore.cpp
   LIB_SRC    += cortex_handlers.c iar_calls_sam3.c syscalls_sam3.c dtostrf.c itoa.c
 
   ifeq ($(U8GLIB), 1)
