@@ -3060,7 +3060,7 @@
     #define I_RSENSE         0.11
     #define I_CHAIN_POS     -1
     //#define I_INTERPOLATE  true
-    //#define I_HOLD_MULTIPLIER 0.5
+    #define I_HOLD_MULTIPLIER 0.9
   #endif
 
   #if AXIS_IS_TMC_CONFIG(J)
@@ -3070,7 +3070,7 @@
     #define J_RSENSE         0.11
     #define J_CHAIN_POS     -1
     //#define J_INTERPOLATE  true
-    //#define J_HOLD_MULTIPLIER 0.5
+    #define J_HOLD_MULTIPLIER 0.9
   #endif
 
   #if AXIS_IS_TMC_CONFIG(K)
@@ -3281,8 +3281,8 @@
   #if HAS_STEALTHCHOP
     #define STEALTHCHOP_XY
     #define STEALTHCHOP_Z
-    #define STEALTHCHOP_I
-    #define STEALTHCHOP_J
+    // #define STEALTHCHOP_I
+    // #define STEALTHCHOP_J
     #define STEALTHCHOP_K
     #define STEALTHCHOP_U
     #define STEALTHCHOP_V
@@ -4536,6 +4536,8 @@
 //#define MARLIN_SMALL_BUILD
 
 // @section Differential rotation axis 
+
+#define DIFFERENTIAL_AXIS 1
 
 #define I_STOP_PIN        P1_27
 #define J_STOP_PIN        I_STOP_PIN
