@@ -1082,7 +1082,7 @@
 //
 // Add the G35 command to read bed corners to help adjust screws. Requires a bed probe.
 //
-//#define ASSISTED_TRAMMING
+// #define ASSISTED_TRAMMING
 #if ENABLED(ASSISTED_TRAMMING)
 
   // Define from 3 to 9 points to probe.
@@ -3049,12 +3049,12 @@
 
   #if AXIS_IS_TMC_CONFIG(I)
     #define I_CURRENT      800
-    #define I_CURRENT_HOME I_CURRENT
+    #define I_CURRENT_HOME I_CURRENT 
     #define I_MICROSTEPS    16
     #define I_RSENSE         0.11
     #define I_CHAIN_POS     -1
     //#define I_INTERPOLATE  true
-    #define I_HOLD_MULTIPLIER 0.9
+    // #define I_HOLD_MULTIPLIER 0.8
   #endif
 
   #if AXIS_IS_TMC_CONFIG(J)
@@ -3064,7 +3064,7 @@
     #define J_RSENSE         0.11
     #define J_CHAIN_POS     -1
     //#define J_INTERPOLATE  true
-    #define J_HOLD_MULTIPLIER 0.9
+    // #define J_HOLD_MULTIPLIER 0.5
   #endif
 
   #if AXIS_IS_TMC_CONFIG(K)
@@ -4531,10 +4531,18 @@
 
 // @section Differential rotation axis 
 
-#define DIFFERENTIAL_AXIS 1
+/**
+ * There is one or more differential axes in this device. A differential axes 
+ */
+#define DIFFERENTIAL_AXIS
 
 #define I_STOP_PIN        P1_27
 #define J_STOP_PIN        I_STOP_PIN
+
+/**
+ * Redefines a number of pins for the 
+ */
+
 
 // I stepper in E0
 #define I_ENABLE_PIN      E0_ENABLE_PIN
