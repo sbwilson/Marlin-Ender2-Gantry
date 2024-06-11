@@ -1987,10 +1987,14 @@ bool Planner::_populate_block(
     );
   #endif
 
-  SECONDARY_AXIS_CODE(
-    dm.i = (dist.i > 0), dm.j = (dist.j > 0), dm.k = (dist.k > 0),
-    dm.u = (dist.u > 0), dm.v = (dist.v > 0), dm.w = (dist.w > 0)
-  );
+  #if ENABLED(DIFFERENTIAL_JOINT)
+    dm.i = dm.j = dist.i > 0;
+  #else 
+    SECONDARY_AXIS_CODE(
+      dm.i = (dist.i > 0), dm.j = (dist.j > 0), dm.k = (dist.k > 0),
+      dm.u = (dist.u > 0), dm.v = (dist.v > 0), dm.w = (dist.w > 0)
+    );
+  #endif 
 
   #if HAS_EXTRUDERS
     dm.e = (dist.e > 0);
@@ -2958,7 +2962,7 @@ bool Planner::buffer_segment(const abce_pos_t &abce
     }
   #endif
 
-  /* <-- add a slash to enable
+  //* <-- add a slash to enable
     SERIAL_ECHOPGM("  buffer_segment FR:", fr_mm_s);
     #if IS_KINEMATIC
       SERIAL_ECHOPGM(" A:", abce.a, " (", position.a, "->", target.a, ") B:", abce.b);

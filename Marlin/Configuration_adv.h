@@ -931,7 +931,7 @@
 //#define HOMING_BACKOFF_POST_MM { 2, 2, 2 }  // (linear=mm, rotational=°) Backoff from endstops after homing
 //#define XY_COUNTERPART_BACKOFF_MM 0         // (mm) Backoff X after homing Y, and vice-versa
 
-//#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
+#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
 //#define HOME_Y_BEFORE_X                     // If G28 contains XY home Y before X
 //#define HOME_Z_FIRST                        // Home Z first. Requires a real endstop (not a probe).
 //#define CODEPENDENT_XY_HOMING               // If X/Y can't home without homing Y/X first
@@ -2616,7 +2616,7 @@
 // For debug-echo: 128 bytes for the optimal speed.
 // Other output doesn't need to be that speedy.
 // :[0, 2, 4, 8, 16, 32, 64, 128, 256]
-#define TX_BUFFER_SIZE 0
+#define TX_BUFFER_SIZE 128
 
 // Host Receive Buffer Size
 // Without XON/XOFF flow control (see SERIAL_XON_XOFF below) 32 bytes should be enough.
@@ -2673,7 +2673,7 @@
  */
 #define REALTIME_REPORTING_COMMANDS
 #if ENABLED(REALTIME_REPORTING_COMMANDS)
-  //#define FULL_REPORT_TO_HOST_FEATURE   // Auto-report the machine status like Grbl CNC
+  #define FULL_REPORT_TO_HOST_FEATURE   // Auto-report the machine status like Grbl CNC
 #endif
 
 /**
@@ -3896,7 +3896,7 @@
 /**
  * Auto-report temperatures with M155 S<seconds>
  */
-#define AUTO_REPORT_TEMPERATURES
+// #define AUTO_REPORT_TEMPERATURES
 #if ENABLED(AUTO_REPORT_TEMPERATURES) && TEMP_SENSOR_REDUNDANT
   //#define AUTO_REPORT_REDUNDANT // Include the "R" sensor in the auto-report
 #endif
@@ -3904,9 +3904,9 @@
 /**
  * Auto-report position with M154 S<seconds>
  */
-//#define AUTO_REPORT_POSITION
+#define AUTO_REPORT_POSITION
 #if ENABLED(AUTO_REPORT_POSITION)
-  //#define AUTO_REPORT_REAL_POSITION // Auto-report the real position
+  #define AUTO_REPORT_REAL_POSITION // Auto-report the real position
 #endif
 
 /**
@@ -3918,7 +3918,7 @@
   // Include capabilities in M115 output
   #define EXTENDED_CAPABILITIES_REPORT
   #if ENABLED(EXTENDED_CAPABILITIES_REPORT)
-    //#define M115_GEOMETRY_REPORT
+    #define M115_GEOMETRY_REPORT
   #endif
 #endif
 
@@ -3971,9 +3971,9 @@
 //#define GCODE_MOTION_MODES  // Remember the motion mode (G0 G1 G2 G3 G5 G38.X) and apply for X Y Z E F, etc.
 
 // Enable and set a (default) feedrate for all G0 moves
-//#define G0_FEEDRATE 3000 // (mm/min)
+#define G0_FEEDRATE 3000 // (mm/min)
 #ifdef G0_FEEDRATE
-  //#define VARIABLE_G0_FEEDRATE // The G0 feedrate is set by F in G0 motion mode
+  #define VARIABLE_G0_FEEDRATE // The G0 feedrate is set by F in G0 motion mode
 #endif
 
 /**
@@ -4485,7 +4485,7 @@
 //
 // M100 Free Memory Watcher to debug memory usage
 //
-//#define M100_FREE_MEMORY_WATCHER
+#define M100_FREE_MEMORY_WATCHER
 
 //
 // M42 - Set pin states
@@ -4535,46 +4535,54 @@
 /**
  * There is one or more differential axes in this device. A differential axes 
  */
-#define DIFFERENTIAL_AXIS
+#define DIFFERENTIAL_JOINT
+#if ENABLED(DIFFERENTIAL_JOINT)
+  // The axes which are involved in this differential gearbox 
+  #define DIFFERENTIAL_JOINT_AXES { AXIS4_NAME, AXIS5_NAME }
 
-#define I_STOP_PIN        P1_27
-#define J_STOP_PIN        I_STOP_PIN
+  // The home for the tilt -- this will home both axes 
+  #define DIFFERENTIAL_JOINT_HOME AXIS4_NAME
 
-/**
- * Redefines a number of pins for the 
- */
+  // Common endstops for I and J axes 
+  #define I_STOP_PIN        P1_27
+  #define J_STOP_PIN        I_STOP_PIN
+
+  /**
+   * Redefines a number of pins for the 
+   */
 
 
-// I stepper in E0
-#define I_ENABLE_PIN      E0_ENABLE_PIN
-#define I_STEP_PIN        E0_STEP_PIN
-#define I_DIR_PIN         E0_DIR_PIN
-#define I_CS_PIN          E0_CS_PIN
-#define I_SERIAL_TX_PIN   P1_04
-#define I_SERIAL_RX_PIN   I_SERIAL_TX_PIN
-// #define I_SLAVE_ADDRESS   4
+  // I stepper in E0
+  #define I_ENABLE_PIN      E0_ENABLE_PIN
+  #define I_STEP_PIN        E0_STEP_PIN
+  #define I_DIR_PIN         E0_DIR_PIN
+  #define I_CS_PIN          E0_CS_PIN
+  #define I_SERIAL_TX_PIN   P1_04
+  #define I_SERIAL_RX_PIN   I_SERIAL_TX_PIN
+  // #define I_SLAVE_ADDRESS   4
 
-// J stepper in E1
-#define J_ENABLE_PIN      E1_ENABLE_PIN
-#define J_STEP_PIN        E1_STEP_PIN
-#define J_DIR_PIN         E1_DIR_PIN
-#define J_CS_PIN          E1_CS_PIN
-#define J_SERIAL_TX_PIN   P1_01
-#define J_SERIAL_RX_PIN   J_SERIAL_TX_PIN
-// #define J_SLAVE_ADDRESS   5
+  // J stepper in E1
+  #define J_ENABLE_PIN      E1_ENABLE_PIN
+  #define J_STEP_PIN        E1_STEP_PIN
+  #define J_DIR_PIN         E1_DIR_PIN
+  #define J_CS_PIN          E1_CS_PIN
+  #define J_SERIAL_TX_PIN   P1_01
+  #define J_SERIAL_RX_PIN   J_SERIAL_TX_PIN
+  // #define J_SLAVE_ADDRESS   5
+
+  #undef E0_STEP_PIN
+  #undef E0_DIR_PIN
+  #undef E0_ENABLE_PIN
+  #undef E0_CS_PIN
+  #undef E0_SERIAL_RX_PIN
+  #undef E0_SERIAL_TX_PIN
+
+  #undef E1_STEP_PIN
+  #undef E1_DIR_PIN
+  #undef E1_ENABLE_PIN
+  #undef E1_CS_PIN
+  #undef E1_SERIAL_RX_PIN
+  #undef E1_SERIAL_TX_PIN
+#endif 
 
 #define DIAG_PINS_REMOVED 1
-
-#undef E0_STEP_PIN
-#undef E0_DIR_PIN
-#undef E0_ENABLE_PIN
-#undef E0_CS_PIN
-#undef E0_SERIAL_RX_PIN
-#undef E0_SERIAL_TX_PIN
-
-#undef E1_STEP_PIN
-#undef E1_DIR_PIN
-#undef E1_ENABLE_PIN
-#undef E1_CS_PIN
-#undef E1_SERIAL_RX_PIN
-#undef E1_SERIAL_TX_PIN
