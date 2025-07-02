@@ -492,14 +492,24 @@ void GcodeSuite::G28() {
           }
         #endif
 
-        SECONDARY_AXIS_CODE(
-          if (doI) homeaxis(I_AXIS),
-          if (doJ) homeaxis(J_AXIS),
-          if (doK) homeaxis(K_AXIS),
-          if (doU) homeaxis(U_AXIS),
-          if (doV) homeaxis(V_AXIS),
-          if (doW) homeaxis(W_AXIS)
-        );
+        #if ENABLED(DIFFERENTIAL_DRIVE)
+          if (doI) {
+            // Home I (tilt) axis to 0 degrees
+            set_homing_current(I_AXIS);
+            homeaxis(I_AXIS);
+            restore_homing_current(I_AXIS);
+          }
+          // J (rotation) axis is not homed
+        #else
+          SECONDARY_AXIS_CODE(
+            if (doI) homeaxis(I_AXIS),
+            if (doJ) homeaxis(J_AXIS),
+            if (doK) homeaxis(K_AXIS),
+            if (doU) homeaxis(U_AXIS),
+            if (doV) homeaxis(V_AXIS),
+            if (doW) homeaxis(W_AXIS)
+          );
+        #endif
 
       #endif // HAS_Z_AXIS
 

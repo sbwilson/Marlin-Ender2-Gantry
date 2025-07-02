@@ -194,6 +194,24 @@ void GcodeSuite::get_destination_from_command() {
       destination.e = current_position.e;
   #endif
 
+  #if ENABLED(DIFFERENTIAL_DRIVE)
+    // Get new I position, whether absolute or relative
+    if ( (seen.i = parser.seenval('I')) ) {
+      const float v = parser.value_axis_units(I_AXIS);
+      destination.i = axis_is_relative(I_AXIS) ? current_position.i + v : v;
+    }
+    else
+      destination.i = current_position.i;
+
+    // Get new J position, whether absolute or relative
+    if ( (seen.j = parser.seenval('J')) ) {
+      const float v = parser.value_axis_units(J_AXIS);
+      destination.j = axis_is_relative(J_AXIS) ? current_position.j + v : v;
+    }
+    else
+      destination.j = current_position.j;
+  #endif
+
   #if ENABLED(POWER_LOSS_RECOVERY) && !PIN_EXISTS(POWER_LOSS)
     // Only update power loss recovery on moves with E
     if (recovery.enabled && card.isStillPrinting() && seen.e && (seen.x || seen.y))

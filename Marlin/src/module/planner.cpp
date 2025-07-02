@@ -1815,6 +1815,42 @@ bool Planner::_populate_block(
 ) {
   xyze_long_t dist = target - position;
 
+  #if ENABLED(DIFFERENTIAL_DRIVE)
+    float current_I = current_position.i;
+    float current_J = current_position.j;
+    float target_I_angle = target_float.i;
+    float target_J_angle = target_float.j;
+
+    // Tilt Angle (I) Clamping
+    target_I_angle = constrain(target_I_angle, I_MIN_POS, I_MAX_POS);
+
+    // Rotation Angle (J) Wrapping
+    #if ENABLED(DIFFERENTIAL_DRIVE_SOFT_LIMITS)
+      float j_target_normalized = fmod(target_J_angle + 180.0f, 360.0f) - 180.0f;
+      float j_delta = j_target_normalized - current_J;
+      if (j_delta > 180.0f) {
+        j_delta -= 360.0f;
+      } else if (j_delta < -180.0f) {
+        j_delta += 360.0f;
+      }
+      target_J_angle = current_J + j_delta;
+    #else
+      target_J_angle = constrain(target_J_angle, J_MIN_POS, J_MAX_POS);
+    #endif
+
+    // Angle to Step Conversion
+    float m1_steps_float = (K_TILT_STEPS_PER_DEGREE * target_I_angle) + (K_ROT_STEPS_PER_DEGREE * target_J_angle);
+    float m2_steps_float = (K_TILT_STEPS_PER_DEGREE * target_I_angle) - (K_ROT_STEPS_PER_DEGREE * target_J_angle);
+
+    // Calculate the change in steps for E0 and E1
+    dist.e = LROUND(m1_steps_float) - position.e;
+    dist.e1 = LROUND(m2_steps_float) - position.e1;
+
+    // Update current position for I and J axes (in degrees)
+    current_position.i = target_I_angle;
+    current_position.j = target_J_angle;
+  #endif
+
   /* <-- add a slash to enable
     SERIAL_ECHOLNPGM(
       "  _populate_block FR:", fr_mm_s,
