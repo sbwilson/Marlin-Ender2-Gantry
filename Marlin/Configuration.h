@@ -160,8 +160,8 @@
 //#define Z2_DRIVER_TYPE A4988
 //#define Z3_DRIVER_TYPE A4988
 //#define Z4_DRIVER_TYPE A4988
-// #define I_DRIVER_TYPE  TMC2209
-// #define J_DRIVER_TYPE  TMC2209
+#define I_DRIVER_TYPE  TMC2209
+#define J_DRIVER_TYPE  TMC2209
 //#define K_DRIVER_TYPE  A4988
 //#define U_DRIVER_TYPE  A4988
 //#define V_DRIVER_TYPE  A4988
@@ -970,15 +970,34 @@
 //#define COREZY
 
 // Differential Drive Kinematics
-// #define DIFFERENTIAL_DRIVE
+#define DIFFERENTIAL_DRIVE
 #if ENABLED(DIFFERENTIAL_DRIVE)
   // Endstop Pins
-  #define I_STOP_PIN        P1_27
+  #define I_STOP_PIN        P1_26
   // #define J_STOP_PIN        I_STOP_PIN
 
   // Constants for the steps required for a single degree (probably wrong)
-  #define K_TILT_STEPS_PER_DEGREE   (1 * 16 * 200 / 360.0) // Example value: 1mm/degree x 16 microsteps/step x 200 steps/revolution / 360 degrees/revolution
-  #define K_ROT_STEPS_PER_DEGREE    (1 * 16 * 200 / 360.0) // Example value: 1mm/degree x 16 microsteps/step x 200 steps/revolution / 360 degrees/revolution
+  // Steps per revolution for the stepper motor (1.8 degrees/step with 16x microstepping)
+  #define K_STEPS_PER_REV ( (360.0 / 1.8) * 16.0 )
+
+  // Gear ratio for the tilt mechanism's worm gear
+  #define K_TILT_WORM_GEAR_RATIO 30.0
+
+  // Gear ratio for the rotation mechanism's spur gear
+  #define K_ROT_SPUR_GEAR_RATIO (130.0 / 26.0)
+
+  // Overall gear ratio for the rotation mechanism
+  #define K_ROT_GEAR_RATIO (K_TILT_WORM_GEAR_RATIO * K_ROT_SPUR_GEAR_RATIO)
+
+  // K_TILT_STEPS_PER_DEGREE is calculated as the number of microsteps for one full revolution of the stepper motor,
+  // divided by the number of degrees the axis moves for one full revolution of the motor.
+  // For the tilt axis, one motor revolution results in a tilt of (360 / 30) degrees.
+  #define K_TILT_STEPS_PER_DEGREE (K_STEPS_PER_REV / (360.0 / K_TILT_WORM_GEAR_RATIO))
+
+  // K_ROT_STEPS_PER_DEGREE is calculated similarly. For the rotation axis, the total gear reduction is the worm gear
+  // ratio multiplied by the spur gear ratio (30 * 5 = 150). One motor revolution results in a rotation of
+  // (360 / 150) degrees.
+  #define K_ROT_STEPS_PER_DEGREE (K_STEPS_PER_REV / (360.0 / K_ROT_GEAR_RATIO))
 
     // Enable soft limits for J-axis rotation (angle wrapping)
     //#define DIFFERENTIAL_DRIVE_SOFT_LIMITS
@@ -1355,7 +1374,7 @@
  * Override with M92 (when enabled below)
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400 } //, 1.8, 1.8 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 100, 100 }
 
 /**
  * Enable support for M92. Disable to save at least ~530 bytes of flash.
@@ -1367,7 +1386,7 @@
  * Override with M203
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 300, 300, 5} //, 5, 5 }
+#define DEFAULT_MAX_FEEDRATE          { 300, 300, 5, 720, 720 } // for the I/J axes, this corresponds to 120rpm
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -1380,7 +1399,7 @@
  * Override with M201
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100 } //, 1000, 1000 }
+#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 500, 500 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -1714,7 +1733,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0} // , 0, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0, 0, 0 }
 
 // Enable and set to use a specific tool for probing. Disable to allow any tool.
 #define PROBING_TOOL 0
@@ -1856,9 +1875,12 @@
 #define Y_ENABLE_ON LOW
 #define Z_ENABLE_ON LOW
 // #define E_ENABLE_ON LOW // For all extruders
+#define A_ENABLE_ON LOW
+#define B_ENABLE_ON LOW
 #define I_ENABLE_ON LOW
 #define J_ENABLE_ON LOW
 //#define K_ENABLE_ON LOW
+
 //#define U_ENABLE_ON LOW
 //#define V_ENABLE_ON LOW
 //#define W_ENABLE_ON LOW
@@ -1934,7 +1956,7 @@
 #define Y_HOME_DIR -1
 #define Z_HOME_DIR -1
 #define I_HOME_DIR -1
-#define J_HOME_DIR -1
+#define J_HOME_DIR 0
 //#define K_HOME_DIR -1
 //#define U_HOME_DIR -1
 //#define V_HOME_DIR -1
@@ -2428,7 +2450,7 @@
 #endif
 
 // Homing speeds (linear=mm/min, rotational=°/min)
-#define HOMING_FEEDRATE_MM_M { (50*60), (50*60), (4*60) } //, (20*60), (20*60) }
+#define HOMING_FEEDRATE_MM_M { (50*60), (50*60), (4*60), (20*60), (20*60) }
 
 // Edit homing feedrates with M210 and MarlinUI menu items
 //#define EDITABLE_HOMING_FEEDRATE
