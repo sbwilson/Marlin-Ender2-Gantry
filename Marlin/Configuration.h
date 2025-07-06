@@ -160,8 +160,8 @@
 //#define Z2_DRIVER_TYPE A4988
 //#define Z3_DRIVER_TYPE A4988
 //#define Z4_DRIVER_TYPE A4988
-#define I_DRIVER_TYPE  TMC2209
-#define J_DRIVER_TYPE  TMC2209
+// #define I_DRIVER_TYPE  TMC2209
+// #define J_DRIVER_TYPE  TMC2209
 //#define K_DRIVER_TYPE  A4988
 //#define U_DRIVER_TYPE  A4988
 //#define V_DRIVER_TYPE  A4988
@@ -970,7 +970,7 @@
 //#define COREZY
 
 // Differential Drive Kinematics
-#define DIFFERENTIAL_DRIVE
+// #define DIFFERENTIAL_DRIVE
 #if ENABLED(DIFFERENTIAL_DRIVE)
   // Endstop Pins
   #define I_STOP_PIN        P1_27
@@ -1355,7 +1355,7 @@
  * Override with M92 (when enabled below)
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 1.8, 1.8 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400 } //, 1.8, 1.8 }
 
 /**
  * Enable support for M92. Disable to save at least ~530 bytes of flash.
@@ -1367,7 +1367,7 @@
  * Override with M203
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 300, 300, 5, 5, 5 }
+#define DEFAULT_MAX_FEEDRATE          { 300, 300, 5} //, 5, 5 }
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -1380,7 +1380,7 @@
  * Override with M201
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 1000, 1000 }
+#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100 } //, 1000, 1000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -1465,10 +1465,10 @@
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
-#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+//  #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // Force the use of the probe for Z-axis homing
-//#define USE_PROBE_FOR_Z_HOMING
+#define USE_PROBE_FOR_Z_HOMING
 
 /**
  * Z_MIN_PROBE_PIN
@@ -1714,7 +1714,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0, 0, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0} // , 0, 0 }
 
 // Enable and set to use a specific tool for probing. Disable to allow any tool.
 #define PROBING_TOOL 0
@@ -2185,7 +2185,7 @@
 //#define AUTO_BED_LEVELING_LINEAR
 //#define AUTO_BED_LEVELING_BILINEAR
 //#define AUTO_BED_LEVELING_UBL
-#define MESH_BED_LEVELING
+// #define MESH_BED_LEVELING
 
 /**
  * Commands to execute at the start of G29 probing,
@@ -2428,7 +2428,7 @@
 #endif
 
 // Homing speeds (linear=mm/min, rotational=°/min)
-#define HOMING_FEEDRATE_MM_M { (50*60), (50*60), (4*60), (20*60), (20*60) }
+#define HOMING_FEEDRATE_MM_M { (50*60), (50*60), (4*60) } //, (20*60), (20*60) }
 
 // Edit homing feedrates with M210 and MarlinUI menu items
 //#define EDITABLE_HOMING_FEEDRATE
