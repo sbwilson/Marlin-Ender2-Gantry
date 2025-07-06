@@ -2519,9 +2519,9 @@ static_assert(NUM_SERVOS <= NUM_SERVO_PLUGS, "NUM_SERVOS (or some servo index) i
     #error "I_MIN_PIN, I_STOP_PIN, or I_SPI_SENSORLESS is required for I axis homing."
   #elif I_HOME_TO_MAX && !HAS_I_MAX_STATE
     #error "I_MAX_PIN, I_STOP_PIN, or I_SPI_SENSORLESS is required for I axis homing."
-  #elif J_HOME_TO_MIN && !HAS_J_MIN_STATE
+  #elif J_HOME_TO_MIN && !HAS_J_MIN_STATE && !ENABLED(DIFFERENTIAL_DRIVE)
     #error "J_MIN_PIN, J_STOP_PIN, or J_SPI_SENSORLESS is required for J axis homing."
-  #elif J_HOME_TO_MAX && !HAS_J_MAX_STATE
+  #elif J_HOME_TO_MAX && !HAS_J_MAX_STATE && !ENABLED(DIFFERENTIAL_DRIVE)
     #error "J_MAX_PIN, J_STOP_PIN, or J_SPI_SENSORLESS is required for J axis homing."
   #elif K_HOME_TO_MIN && !HAS_K_MIN_STATE
     #error "K_MIN_PIN, K_STOP_PIN, or K_SPI_SENSORLESS is required for K axis homing."

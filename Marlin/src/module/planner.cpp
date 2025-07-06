@@ -1816,8 +1816,6 @@ bool Planner::_populate_block(
   xyze_long_t dist = target - position;
 
   #if ENABLED(DIFFERENTIAL_DRIVE)
-    float current_I = current_position.i;
-    float current_J = current_position.j;
     float target_I_angle = target_float.i;
     float target_J_angle = target_float.j;
 
@@ -1843,8 +1841,8 @@ bool Planner::_populate_block(
     float m2_steps_float = (K_TILT_STEPS_PER_DEGREE * target_I_angle) - (K_ROT_STEPS_PER_DEGREE * target_J_angle);
 
     // Calculate the change in steps for E0 and E1
-    dist.e = LROUND(m1_steps_float) - position.e;
-    dist.e1 = LROUND(m2_steps_float) - position.e1;
+    dist.i = LROUND(m1_steps_float) - position.i;
+    dist.j = LROUND(m2_steps_float) - position.j;
 
     // Update current position for I and J axes (in degrees)
     current_position.i = target_I_angle;

@@ -495,9 +495,7 @@ void GcodeSuite::G28() {
         #if ENABLED(DIFFERENTIAL_DRIVE)
           if (doI) {
             // Home I (tilt) axis to 0 degrees
-            set_homing_current(I_AXIS);
             homeaxis(I_AXIS);
-            restore_homing_current(I_AXIS);
           }
           // J (rotation) axis is not homed
         #else
